@@ -3,71 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vertical NFT Showcase</title>
-    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
+    <title>Circular NFT Slider</title>
     <link rel="stylesheet" href="unique.css">
 </head>
 <body>
     <div class="container">
-        <h1>Vertical NFT Showcase</h1>
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="nft-card">
-                        <img src="/placeholder.svg?height=600&width=400" alt="Digital Dreamscape NFT">
-                        <div class="nft-info">
-                            <h3>Digital Dreamscape</h3>
-                            <p class="artist">by VirtualVisions</p>
-                            <p class="price">3.5 ETH</p>
-                        </div>
+        <h1>Circular NFT Showcase</h1>
+        <div class="circular-slider">
+            <div class="slider-container">
+                <div class="nft-card" data-index="0">
+                    <img src="/placeholder.svg?height=300&width=300" alt="Cosmic Harmony NFT">
+                    <div class="nft-info">
+                        <h3>Cosmic Harmony</h3>
+                        <p class="artist">by StardustArtist</p>
+                        <p class="price">2.8 ETH</p>
                     </div>
                 </div>
-                <div class="swiper-slide">
-                    <div class="nft-card">
-                        <img src="/placeholder.svg?height=600&width=400" alt="Ethereal Echoes NFT">
-                        <div class="nft-info">
-                            <h3>Ethereal Echoes</h3>
-                            <p class="artist">by SonicSculptor</p>
-                            <p class="price">2.8 ETH</p>
-                        </div>
+                <div class="nft-card" data-index="1">
+                    <img src="/placeholder.svg?height=300&width=300" alt="Digital Genesis NFT">
+                    <div class="nft-info">
+                        <h3>Digital Genesis</h3>
+                        <p class="artist">by CryptoCreator</p>
+                        <p class="price">3.5 ETH</p>
                     </div>
                 </div>
-                <div class="swiper-slide">
-                    <div class="nft-card">
-                        <img src="/placeholder.svg?height=600&width=400" alt="Quantum Quill NFT">
-                        <div class="nft-info">
-                            <h3>Quantum Quill</h3>
-                            <p class="artist">by DigitalDaVinci</p>
-                            <p class="price">4.2 ETH</p>
-                        </div>
+                <div class="nft-card" data-index="2">
+                    <img src="/placeholder.svg?height=300&width=300" alt="Neon Dreamscape NFT">
+                    <div class="nft-info">
+                        <h3>Neon Dreamscape</h3>
+                        <p class="artist">by PixelPioneer</p>
+                        <p class="price">4.2 ETH</p>
                     </div>
                 </div>
-                <div class="swiper-slide">
-                    <div class="nft-card">
-                        <img src="/placeholder.svg?height=600&width=400" alt="Nebula Nexus NFT">
-                        <div class="nft-info">
-                            <h3>Nebula Nexus</h3>
-                            <p class="artist">by CosmicCreator</p>
-                            <p class="price">3.7 ETH</p>
-                        </div>
+                <div class="nft-card" data-index="3">
+                    <img src="/placeholder.svg?height=300&width=300" alt="Quantum Quasar NFT">
+                    <div class="nft-info">
+                        <h3>Quantum Quasar</h3>
+                        <p class="artist">by FractalPhenom</p>
+                        <p class="price">3.9 ETH</p>
                     </div>
                 </div>
-                <div class="swiper-slide">
-                    <div class="nft-card">
-                        <img src="/placeholder.svg?height=600&width=400" alt="Fractal Phoenix NFT">
-                        <div class="nft-info">
-                            <h3>Fractal Phoenix</h3>
-                            <p class="artist">by PixelPhoenix</p>
-                            <p class="price">5.1 ETH</p>
-                        </div>
+                <div class="nft-card" data-index="4">
+                    <img src="/placeholder.svg?height=300&width=300" alt="Ethereal Essence NFT">
+                    <div class="nft-info">
+                        <h3>Ethereal Essence</h3>
+                        <p class="artist">by VirtualVanguard</p>
+                        <p class="price">3.2 ETH</p>
                     </div>
                 </div>
             </div>
-            <div class="swiper-pagination"></div>
+        </div>
+        <div class="controls">
+            <button id="prevBtn" aria-label="Previous NFT">&#8592;</button>
+            <button id="nextBtn" aria-label="Next NFT">&#8594;</button>
         </div>
     </div>
-    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
     <script src="unique.js"></script>
 </body>
 </html>
-
