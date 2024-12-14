@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Marketplace - Author Profile</title>
+    <link rel="stylesheet" href="profile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="author-header">
+            <div class="author-banner"></div>
+            <div class="author-info">
+                <img src="https://placeholder.svg?height=100&width=100" alt="Author Avatar" class="author-avatar">
+                <h1 class="author-name">John Doe</h1>
+                <p class="author-bio">Digital artist and NFT creator</p>
+            </div>
+        </header>
+        
+        <nav class="category-filter">
+            <button class="filter-btn active" data-category="on-sale">On Sale</button>
+            <button class="filter-btn" data-category="owned">Owned</button>
+            <button class="filter-btn" data-category="created">Created</button>
+            <button class="filter-btn" data-category="liked">Liked</button>
+        </nav>
+        
+        <main class="nft-grid">
+            <!-- NFT items will be dynamically added here -->
+        </main>
+    </div>
+    <script src="profile.js"></script>
+</body>
+</html>

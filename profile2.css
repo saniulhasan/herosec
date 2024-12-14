@@ -1,0 +1,249 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+.author-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.author-background {
+    height: 200px;
+    background-image: url('https://placeholder.svg?height=200&width=1200&text=Colorful+Abstract+Background');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.author-background::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), #ffffff);
+}
+
+.author-content {
+    padding: 40px;
+    text-align: center;
+    position: relative;
+}
+
+.author-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid #ffffff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: -100px;
+    position: relative;
+    z-index: 1;
+}
+
+.author-name {
+    font-size: 28px;
+    font-weight: 600;
+    margin-top: 20px;
+    color: #333;
+}
+
+.author-bio {
+    font-size: 16px;
+    color: #666;
+    margin-top: 10px;
+}
+
+.author-stats {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.stat {
+    margin: 0 20px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #666;
+}
+
+.author-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+.btn-secondary {
+    background-color: #f0f2f5;
+    color: #333;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #e4e6e9;
+}
+
+.filter-section {
+    margin-top: 40px;
+}
+
+.filter-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #f0f2f5;
+    color: #333;
+    border: none;
+}
+
+.filter-btn:hover {
+    background-color: #e4e6e9;
+}
+
+.filter-btn.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.nft-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.nft-item {
+    background-color: #f0f2f5;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.nft-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nft-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.nft-info {
+    padding: 15px;
+}
+
+.nft-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.nft-price {
+    font-size: 14px;
+    color: #4CAF50;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .author-content {
+        padding: 20px;
+    }
+
+    .author-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stat {
+        margin: 10px 0;
+    }
+
+    .author-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn, .filter-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .filter-buttons {
+        flex-direction: column;
+    }
+
+    .nft-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
