@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultra Modern NFT Product Details</title>
+    <link rel="stylesheet" href="details.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CryptoArt Gallery</h1>
+            <nav>
+                <a href="#" class="active">Explore</a>
+                <a href="#">Create</a>
+                <a href="#">Community</a>
+            </nav>
+        </header>
+        <main>
+            <section class="nft-showcase">
+                <div class="main-image">
+                    <img src="https://placehold.co/600x600" alt="Main NFT" id="mainNft">
+                </div>
+                <div class="thumbnail-container">
+                    <img src="https://placehold.co/150x150" alt="NFT 1" class="thumbnail" data-src="/placeholder.svg?height=600&width=600">
+                    <img src="https://placehold.co/150x150" alt="NFT 2" class="thumbnail" data-src="/placeholder.svg?height=600&width=600">
+                    <img src="https://placehold.co/150x150" alt="NFT 3" class="thumbnail" data-src="/placeholder.svg?height=600&width=600">
+                </div>
+            </section>
+            <section class="nft-details">
+                <h2 class="nft-title">Ethereal Dreamscape #42</h2>
+                <p class="nft-creator">by <a href="#">CryptoArtist123</a></p>
+                <div class="nft-meta">
+                    <span class="category">Digital Painting</span>
+                    <span class="collection">Dreamscape Collection</span>
+                </div>
+                <div class="bid-info">
+                    <div class="current-bid">
+                        <h3>Current Bid</h3>
+                        <p class="bid-amount">2.5 ETH</p>
+                        <p class="bid-usd">$4,250 USD</p>
+                    </div>
+                    <div class="auction-ends">
+                        <h3>Auction Ends in</h3>
+                        <div id="auction-countdown" class="countdown"></div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button id="placeBidBtn" class="btn primary">Place Bid</button>
+                    <button id="likeBtn" class="btn secondary">♡ 42</button>
+                    <button id="shareBtn" class="btn secondary">Share</button>
+                </div>
+            </section>
+        </main>
+        <section class="tabs">
+            <div class="tab-header">
+                <button class="tab-btn active" data-tab="provenance">Provenance</button>
+                <button class="tab-btn" data-tab="traits">Traits</button>
+                <button class="tab-btn" data-tab="bids">Bids</button>
+            </div>
+            <div class="tab-content">
+                <div id="provenance" class="tab-pane active">
+                    <ul class="timeline">
+                        <li>Minted on 2023-05-01</li>
+                        <li>Listed for 1.8 ETH on 2023-05-05</li>
+                        <li>Bid of 2.0 ETH by User789 on 2023-05-07</li>
+                        <li>Bid of 2.5 ETH by User456 on 2023-05-08</li>
+                    </ul>
+                </div>
+                <div id="traits" class="tab-pane">
+                    <ul class="traits-list">
+                        <li><span>Background</span>: Nebula</li>
+                        <li><span>Style</span>: Surrealism</li>
+                        <li><span>Color Palette</span>: Vibrant</li>
+                        <li><span>Rarity</span>: Ultra Rare</li>
+                    </ul>
+                </div>
+                <div id="bids" class="tab-pane">
+                    <ul class="bids-list">
+                        <li>
+                            <span class="bidder">User456</span>
+                            <span class="bid-amount">2.5 ETH</span>
+                            <span class="bid-time">2 hours ago</span>
+                        </li>
+                        <li>
+                            <span class="bidder">User789</span>
+                            <span class="bid-amount">2.0 ETH</span>
+                            <span class="bid-time">1 day ago</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="related-items">
+            <h2>More from this collection</h2>
+            <div class="nft-grid">
+                <div class="nft-item">
+                    <img src="https://placehold.co/300x300" alt="Related NFT 1">
+                    <h3>Dreamscape #38</h3>
+                    <p>1.8 ETH</p>
+                </div>
+                <div class="nft-item">
+                    <img src="https://placehold.co/300x300" alt="Related NFT 2">
+                    <h3>Dreamscape #39</h3>
+                    <p>2.1 ETH</p>
+                </div>
+                <div class="nft-item">
+                    <img src="https://placehold.co/150x150" alt="Related NFT 3">
+                    <h3>Dreamscape #40</h3>
+                    <p>1.9 ETH</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="details.js"></script>
+</body>
+</html>

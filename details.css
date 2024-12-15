@@ -1,0 +1,276 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #6C5CE7;
+    --secondary-color: #FD79A8;
+    --background-color: #0F0F0F;
+    --surface-color: #1E1E1E;
+    --text-color: #FFFFFF;
+    --text-secondary: #A0A0A0;
+    --accent-color: #00D2D3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-left: 1.5rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+nav a:hover, nav a.active {
+    color: var(--accent-color);
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.nft-showcase {
+    position: relative;
+}
+
+.main-image img {
+    width: 100%;
+    border-radius: 1rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.thumbnail-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.thumbnail:hover {
+    transform: scale(1.1);
+}
+
+.nft-title {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.nft-creator {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.nft-creator a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.nft-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.category, .collection {
+    background-color: var(--surface-color);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+}
+
+.bid-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.current-bid, .auction-ends {
+    background-color: var(--surface-color);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    flex: 1;
+}
+
+.current-bid {
+    margin-right: 1rem;
+}
+
+.bid-amount {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.bid-usd {
+    color: var(--text-secondary);
+}
+
+.countdown {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn.primary {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.btn.secondary {
+    background-color: var(--surface-color);
+    color: var(--text-color);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.tabs {
+    margin-top: 3rem;
+}
+
+.tab-header {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tab-btn {
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.tab-pane {
+    display: none;
+    background-color: var(--surface-color);
+    padding: 1.5rem;
+    border-radius: 1rem;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.timeline, .traits-list, .bids-list {
+    list-style-type: none;
+}
+
+.timeline li, .traits-list li, .bids-list li {
+    margin-bottom: 1rem;
+}
+
+.traits-list span, .bids-list span {
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.related-items {
+    margin-top: 3rem;
+}
+
+.nft-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.nft-item {
+    background-color: var(--surface-color);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.nft-item:hover {
+    transform: translateY(-5px);
+}
+
+.nft-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.nft-item h3, .nft-item p {
+    padding: 0.5rem 1rem;
+}
+
+@media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    .bid-info {
+        flex-direction: column;
+    }
+
+    .current-bid {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+}
+

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic NFT - Cosmic Dreamcatcher</title>
+    <link rel="stylesheet" href="details2.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo">NFTverse</a>
+            <ul>
+                <li><a href="#" class="active">Explore</a></li>
+                <li><a href="#">Create</a></li>
+                <li><a href="#">Community</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="parallax-container">
+                <div class="parallax-layer" data-speed="0.2">
+                    <img src="https://placehold.co/800x800" alt="Cosmic Dreamcatcher Background" class="nft-bg">
+                </div>
+                <div class="parallax-layer" data-speed="0.5">
+                    <img src="https://placehold.co/800x800" alt="Cosmic Dreamcatcher Foreground" class="nft-fg">
+                </div>
+            </div>
+            <div class="hero-content">
+                <h1>Cosmic Dreamcatcher</h1>
+                <p>by NebulaArtist</p>
+            </div>
+        </section>
+
+        <section class="nft-details">
+            <div class="auction-info">
+                <div class="current-bid">
+                    <h2>Current Bid</h2>
+                    <p class="bid-amount">4.5 ETH</p>
+                    <p class="bid-usd">$7,650 USD</p>
+                </div>
+                <div class="auction-timer">
+                    <svg class="progress-ring" width="120" height="120">
+                        <circle class="progress-ring__circle" stroke="#00a8ff" stroke-width="4" fill="transparent" r="52" cx="60" cy="60"/>
+                    </svg>
+                    <div class="countdown" id="countdown"></div>
+                </div>
+            </div>
+            <div class="nft-description">
+                <p>"Cosmic Dreamcatcher" is a mesmerizing digital masterpiece that captures the essence of the universe's mysteries. This NFT blends surreal cosmic elements with the intricate patterns of a dreamcatcher, symbolizing the capture of celestial dreams and aspirations.</p>
+                <div class="tags">
+                    <span class="tag">Digital Art</span>
+                    <span class="tag">Cosmic</span>
+                    <span class="tag">Surrealism</span>
+                </div>
+            </div>
+            <div class="bid-history">
+                <h2>Bid History</h2>
+                <ul id="bidList">
+                    <li>
+                        <span class="bidder">CryptoWhale</span>
+                        <span class="bid">4.5 ETH</span>
+                        <span class="time">2 hours ago</span>
+                    </li>
+                    <li>
+                        <span class="bidder">ArtCollector23</span>
+                        <span class="bid">4.2 ETH</span>
+                        <span class="time">5 hours ago</span>
+                    </li>
+                    <li>
+                        <span class="bidder">NFTEnthusiast</span>
+                        <span class="bid">4.0 ETH</span>
+                        <span class="time">8 hours ago</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <div class="floating-action-button" id="actionButton">
+        <span>+</span>
+    </div>
+
+    <div class="action-menu" id="actionMenu">
+        <button id="placeBidBtn">Place Bid</button>
+        <button id="likeBtn">♥ Like</button>
+        <button id="shareBtn">Share</button>
+    </div>
+
+    <script src="details2.js"></script>
+</body>
+</html>

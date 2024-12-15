@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artistic NFT Showcase</title>
+    <link rel="stylesheet" href="productdet.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo">ArtisticNFT</a>
+            <ul>
+                <li><a href="#" class="active">Explore</a></li>
+                <li><a href="#">Create</a></li>
+                <li><a href="#">Community</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="nft-showcase">
+            <div class="nft-image-container">
+                <img src="https://placehold.co/800x800" alt="Featured NFT" id="mainNftImage">
+                <div class="nft-overlay">
+                    <h1 id="nftTitle">Cosmic Harmony #42</h1>
+                    <p id="nftArtist">by DigitalDreamer</p>
+                </div>
+            </div>
+            <div class="nft-thumbnails">
+                <img src="https://placehold.co/150x150" alt="NFT Thumbnail 1" class="thumbnail" data-full="/placeholder.svg?height=800&width=800">
+                <img src="https://placehold.co/150x150" alt="NFT Thumbnail 2" class="thumbnail" data-full="/placeholder.svg?height=800&width=800">
+                <img src="https://placehold.co/150x150" alt="NFT Thumbnail 3" class="thumbnail" data-full="/placeholder.svg?height=800&width=800">
+            </div>
+        </section>
+
+        <section class="nft-details">
+            <div class="nft-info">
+                <div class="bid-info">
+                    <h2>Current Bid</h2>
+                    <p class="price">3.5 ETH</p>
+                    <p class="price-usd">$6,125 USD</p>
+                </div>
+                <div class="time-left">
+                    <h2>Auction Ends In</h2>
+                    <div id="countdown"></div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button id="placeBidBtn" class="btn primary">Place Bid</button>
+                <button id="likeBtn" class="btn secondary">♥ 78</button>
+                <button id="shareBtn" class="btn secondary">Share</button>
+            </div>
+        </section>
+
+        <section class="nft-description">
+    <div class="tab-container">
+        <div class="tab-buttons">
+            <button class="tab-btn active" data-tab="about">About</button>
+            <button class="tab-btn" data-tab="details">Details</button>
+            <button class="tab-btn" data-tab="bids">Bids</button>
+        </div>
+        <div class="tab-content">
+            <div id="about" class="tab-pane active">
+                <h2>About this NFT</h2>
+                <p>"Cosmic Harmony #42" is a mesmerizing digital artwork that explores the intricate balance of the universe. Through a vibrant palette and dynamic composition, it invites viewers to contemplate the interconnectedness of all things.</p>
+                <div class="tags">
+                    <span class="tag">Digital Art</span>
+                    <span class="tag">Abstract</span>
+                    <span class="tag">Cosmos</span>
+                </div>
+            </div>
+            <div id="details" class="tab-pane">
+                <h2>NFT Details</h2>
+                <ul>
+                    <li>Artist: DigitalDreamer</li>
+                    <li>Created: May 15, 2023</li>
+                    <li>Dimensions: 3000x3000 px</li>
+                    <li>File Format: PNG</li>
+                </ul>
+            </div>
+            <div id="bids" class="tab-pane">
+                <h2>Bid History</h2>
+                <ul class="bid-history">
+                    <li>
+                        <span class="bidder">ArtCollector123</span>
+                        <span class="bid-amount">3.5 ETH</span>
+                        <span class="bid-time">2 hours ago</span>
+                    </li>
+                    <li>
+                        <span class="bidder">NFTEnthusiast</span>
+                        <span class="bid-amount">3.2 ETH</span>
+                        <span class="bid-time">5 hours ago</span>
+                    </li>
+                    <li>
+                        <span class="bidder">CryptoArtLover</span>
+                        <span class="bid-amount">3.0 ETH</span>
+                        <span class="bid-time">8 hours ago</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <section class="nft-history">
+            <h2>Provenance</h2>
+            <ul class="timeline">
+                <li>
+                    <span class="date">May 15, 2023</span>
+                    <span class="event">Minted by DigitalDreamer</span>
+                </li>
+                <li>
+                    <span class="date">May 18, 2023</span>
+                    <span class="event">Listed for auction</span>
+                </li>
+                <li>
+                    <span class="date">May 20, 2023</span>
+                    <span class="event">First bid: 2.0 ETH by CryptoEnthusiast</span>
+                </li>
+                <li>
+                    <span class="date">May 22, 2023</span>
+                    <span class="event">Current highest bid: 3.5 ETH by ArtCollector123</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="more-from-artist">
+            <h2>More from DigitalDreamer</h2>
+            <div class="nft-grid">
+                <div class="nft-item">
+                    <img src="/placeholder.svg?height=300&width=300" alt="Another NFT by DigitalDreamer">
+                    <h3>Ethereal Whispers #28</h3>
+                    <p>2.8 ETH</p>
+                </div>
+                <div class="nft-item">
+                    <img src="/placeholder.svg?height=300&width=300" alt="Another NFT by DigitalDreamer">
+                    <h3>Neon Dreams #15</h3>
+                    <p>3.2 ETH</p>
+                </div>
+                <div class="nft-item">
+                    <img src="/placeholder.svg?height=300&width=300" alt="Another NFT by DigitalDreamer">
+                    <h3>Digital Serenity #7</h3>
+                    <p>2.5 ETH</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 ArtisticNFT. All rights reserved.</p>
+    </footer>
+
+    <script src="productdet.js"></script>
+</body>
+</html>
+
