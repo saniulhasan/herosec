@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced NFT Upload</title>
+    <link rel="stylesheet" href="createnft.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Advanced NFT Upload</h1>
+        <form id="nftForm">
+            <div class="form-group">
+                <label for="productName">Product Name</label>
+                <input type="text" id="productName" placeholder="e.g. Digital Awesome Game" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" placeholder="e.g. After purchasing the product you can get item..." required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="price">Item Price in $</label>
+                <input type="number" id="price" placeholder="e.g. 20" required>
+            </div>
+            <div class="form-group">
+                <label for="size">Size</label>
+                <input type="text" id="size" placeholder="e.g. Size">
+            </div>
+            <div class="form-group">
+                <label for="properties">Properties</label>
+                <input type="text" id="properties" placeholder="e.g. Properties">
+            </div>
+            <div class="form-group">
+                <label for="royalty">Royalty (%)</label>
+                <input type="number" id="royalty" placeholder="e.g. 20" min="0" max="100">
+            </div>
+            <div class="form-group">
+                <label for="putOnSale">Put on Sale</label>
+                <input type="checkbox" id="putOnSale">
+            </div>
+            <div class="form-group">
+                <label for="instantSalePrice">Instant Sale Price</label>
+                <input type="number" id="instantSalePrice" placeholder="Enter instant sale price">
+            </div>
+            <div class="form-group">
+                <label for="unlockPurchased">Unlock Purchased</label>
+                <input type="checkbox" id="unlockPurchased">
+            </div>
+            <div class="form-group">
+                <label for="nftImages">Upload NFT Images</label>
+                <input type="file" id="nftImages" accept="image/*" multiple>
+                <div id="imagePreview" class="image-preview"></div>
+            </div>
+            <button type="submit">Create NFT</button>
+        </form>
+    </div>
+    <script src="createnft.js"></script>
+</body>
+</html>
