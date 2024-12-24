@@ -1,0 +1,1164 @@
+/*=============== GOOGLE FONTS ===============*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+/*=============== VARIABLES CSS ===============*/
+:root {
+  --header-height: 3.5rem;
+  /*========== Colors ==========*/
+  /*Color mode HSL(hue, saturation, lightness)*/
+  --first-color: hsl(220, 68%, 54%);
+  --first-color-lighten: hsl(220, 68%, 97%);
+  --title-color: hsl(220, 48%, 28%);
+  --text-color: hsl(220, 12%, 45%);
+  --body-color: hsl(220, 100%, 99%);
+  /*========== Font and typography ==========*/
+  /*.5rem = 8px | 1rem = 16px ...*/
+  --body-font: "Poppins", sans-serif;
+  --normal-font-size: .938rem;
+  --small-font-size: .813rem;
+  --smaller-font-size: .75rem;
+  /*========== Font weight ==========*/
+  --font-medium: 500;
+  --font-semi-bold: 600;
+  /*========== z index ==========*/
+  --z-tooltip: 10;
+  --z-fixed: 100;
+}
+@media screen and (min-width: 1024px) {
+  :root {
+    --normal-font-size: 1rem;
+    --small-font-size: .875rem;
+    --smaller-font-size: .813rem;
+  }
+}
+
+/*=============== BASE ===============*/
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  background-color: var(--body-color);
+  color: var(--text-color);
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*=============== REUSABLE CSS CLASSES ===============*/
+.container {
+  max-width: 1120px;
+  margin-inline: 1.5rem;
+}
+
+/*=============== HEADER ===============*/
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 2px 8px hsla(220, 68%, 12%, 0.1);
+  background-color: var(--body-color);
+  z-index: var(--z-fixed);
+}
+
+/*=============== NAV ===============*/
+.nav {
+  height: var(--header-height);
+}
+.nav__data {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav__logo {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 0.25rem;
+  color: var(--title-color);
+  font-weight: var(--font-semi-bold);
+  transition: color 0.3s;
+}
+.nav__logo i {
+  font-size: 1.25rem;
+}
+.nav__logo:hover {
+  color: var(--first-color);
+}
+.nav__toggle {
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+.nav__toggle-menu, .nav__toggle-close {
+  font-size: 1.25rem;
+  color: var(--title-color);
+  position: absolute;
+  display: grid;
+  place-items: center;
+  inset: 0;
+  cursor: pointer;
+  transition: opacity 0.1s, transform 0.4s;
+}
+.nav__toggle-close {
+  opacity: 0;
+}
+@media screen and (max-width: 1118px) {
+  .nav__menu {
+    background-color: var(--body-color);
+    position: absolute;
+    left: 0;
+    top: 2.5rem;
+    width: 100%;
+    height: calc(100vh - 3.5rem);
+    overflow: auto;
+    padding-block: 1.5rem 4rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: top 0.4s, opacity 0.3s;
+  }
+  .nav__menu::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  .nav__menu::-webkit-scrollbar-thumb {
+    background-color: hsl(220, 12%, 70%);
+  }
+}
+.nav__link {
+  color: var(--title-color);
+  font-weight: var(--font-semi-bold);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+.nav__link:hover {
+  background-color: var(--first-color-lighten);
+}
+
+/* Show menu */
+.show-menu {
+  opacity: 1;
+  top: 3.5rem;
+  pointer-events: initial;
+}
+
+/* Show icon */
+.show-icon .nav__toggle-menu {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+.show-icon .nav__toggle-close {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+
+/*=============== DROPDOWN ===============*/
+.dropdown__button {
+  cursor: pointer;
+}
+.dropdown__arrow {
+  font-size: 1.5rem;
+  font-weight: initial;
+  transition: transform 0.4s;
+}
+.dropdown__content, .dropdown__group, .dropdown__list {
+  display: grid;
+}
+.dropdown__container {
+  background-color: var(--first-color-lighten);
+  height: 0;
+  overflow: hidden;
+  transition: height 0.4s;
+}
+.dropdown__content {
+  row-gap: 1.75rem;
+}
+.dropdown__group {
+  padding-left: 2.5rem;
+  row-gap: 0.5rem;
+}
+.dropdown__group:first-child {
+  margin-top: 1.25rem;
+}
+.dropdown__group:last-child {
+  margin-bottom: 1.25rem;
+}
+.dropdown__icon i {
+  font-size: 1.25rem;
+  color: var(--first-color);
+}
+.dropdown__title {
+  font-size: var(--small-font-size);
+  font-weight: var(--font-semi-bold);
+  color: var(--title-color);
+}
+.dropdown__list {
+  row-gap: 0.25rem;
+}
+.dropdown__link {
+  font-size: var(--smaller-font-size);
+  font-weight: var(--font-medium);
+  color: var(--text-color);
+  transition: color 0.3s;
+}
+.dropdown__link:hover {
+  color: var(--title-color);
+}
+
+/* Rotate dropdown icon */
+.show-dropdown .dropdown__arrow {
+  transform: rotate(180deg);
+}
+
+/*=============== BREAKPOINTS ===============*/
+/* For small devices */
+@media screen and (max-width: 300px) {
+  .dropdown__group {
+    padding-left: 1.5rem;
+  }
+}
+/* For large devices */
+@media screen and (min-width: 1118px) {
+  /* Nav */
+  .nav {
+    height: calc(var(--header-height) + 2rem);
+    display: flex;
+    justify-content: space-between;
+  }
+  .nav__toggle {
+    display: none;
+  }
+  .nav__list {
+    display: flex;
+    column-gap: 3rem;
+    height: 100%;
+  }
+  .nav li {
+    display: flex;
+  }
+  .nav__link {
+    padding: 0;
+  }
+  .nav__link:hover {
+    background-color: initial;
+  }
+  /* Dropdown */
+  .dropdown__button {
+    column-gap: 0.25rem;
+    pointer-events: none;
+  }
+  .dropdown__container {
+    height: max-content;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 6.5rem;
+    background-color: var(--body-color);
+    box-shadow: 0 6px 8px hsla(220, 68%, 12%, 0.05);
+    pointer-events: none;
+    opacity: 0;
+    transition: top 0.4s, opacity 0.3s;
+  }
+  .dropdown__content {
+    grid-template-columns: repeat(4, max-content);
+    column-gap: 6rem;
+    max-width: 1120px;
+    margin-inline: auto;
+  }
+  .dropdown__group {
+    padding: 4rem 0;
+    align-content: baseline;
+    row-gap: 1.25rem;
+  }
+  .dropdown__group:first-child, .dropdown__group:last-child {
+    margin: 0;
+  }
+  .dropdown__list {
+    row-gap: 0.75rem;
+  }
+  .dropdown__icon {
+    width: 60px;
+    height: 60px;
+    background-color: var(--first-color-lighten);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin-bottom: 1rem;
+  }
+  .dropdown__icon i {
+    font-size: 2rem;
+  }
+  .dropdown__title {
+    font-size: var(--normal-font-size);
+  }
+  .dropdown__link {
+    font-size: var(--small-font-size);
+  }
+  .dropdown__link:hover {
+    color: var(--first-color);
+  }
+  .dropdown__item {
+    cursor: pointer;
+  }
+  .dropdown__item:hover .dropdown__arrow {
+    transform: rotate(180deg);
+  }
+  .dropdown__item:hover > .dropdown__container {
+    top: 5.5rem;
+    opacity: 1;
+    pointer-events: initial;
+    cursor: initial;
+  }
+}
+@media screen and (min-width: 1152px) {
+  .container {
+    margin-inline: auto;
+  }
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+* Hero section styles */
+.hero {
+    padding-top: 120px;
+    padding-bottom: 60px;
+    background: linear-gradient(135deg, #3498db, #8e44ad);
+    color: #fff;
+}
+
+.hero .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.hero__content {
+    flex: 1;
+    max-width: 600px;
+    margin-right: 2rem;
+}
+
+.hero__title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero__description {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.hero__form {
+    display: flex;
+}
+
+.hero__input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 1rem;
+}
+
+.hero__button {
+    background-color: #f39c12;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.hero__button:hover {
+    background-color: #e67e22;
+}
+
+.hero__trading-view {
+    flex: 1;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.trading-view__title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.trading-view__content {
+    background-color: #f0f2f5;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #777;
+}
+@media screen and (max-width: 768px) {
+  .nav__toggle {
+      display: block;
+      font-size: 1.5rem;
+      cursor: pointer;
+  }
+
+  .nav__menu {
+      position: absolute;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: none;
+  }
+
+  .nav__menu.show-menu {
+      display: block;
+  }
+
+  .nav__list {
+      flex-direction: column;
+  }
+
+  .nav__link {
+      padding: 0.75rem 1rem;
+  }
+
+  .dropdown__container {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      box-shadow: none;
+  }
+
+  .dropdown__content {
+      flex-direction: column;
+  }
+
+  .dropdown__group {
+      margin-right: 0;
+      margin-bottom: 1rem;
+  }
+
+  .hero .container {
+      flex-direction: column;
+  }
+
+  .hero__content {
+      margin-right: 0;
+      margin-bottom: 2rem;
+  }
+
+  .hero__trading-view {
+      width: 100%;
+  }
+}
+
+/* Existing styles remain the same */
+
+/* Market Tracker styles */
+.market-tracker {
+  padding: 60px 0;
+  background-color: #f0f2f5;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.market-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.tab-button {
+  background-color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #7f8c8d;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.tab-button:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.tab-button.active {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.market-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.market-table {
+  flex: 1;
+  min-width: 300px;
+}
+
+#cryptoTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#cryptoTable th,
+#cryptoTable td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+#cryptoTable th {
+  background-color: #3498db;
+  color: #fff;
+  font-weight: 600;
+}
+
+#cryptoTable tbody tr:hover {
+  background-color: #f5f7fa;
+  cursor: pointer;
+}
+
+.chart-container {
+  flex: 2;
+  min-width: 500px;
+  background-color: #fff;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+#selectedCoin {
+  font-size: 1.5rem;
+  color: #2c3e50;
+}
+
+.time-period {
+  display: flex;
+}
+
+.period-button {
+  background-color: #ecf0f1;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #7f8c8d;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.period-button:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.period-button.active {
+  background-color: #3498db;
+  color: #fff;
+}
+
+#candlestickChart {
+  height: 400px;
+}
+
+.positive {
+  color: #2ecc71;
+}
+
+.negative {
+  color: #e74c3c;
+}
+
+@media screen and (max-width: 768px) {
+  .market-content {
+      flex-direction: column;
+  }
+
+  .chart-container {
+      min-width: 100%;
+  }
+}
+
+/* Existing styles remain the same */
+
+/* Why Choose Us section */
+.why-choose-us {
+  background-color: #f8f9fa;
+  padding: 60px 0;
+}
+
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.reason-card {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.reason-card:hover {
+  transform: translateY(-5px);
+}
+
+.reason-card i {
+  font-size: 3rem;
+  color: #3498db;
+  margin-bottom: 1rem;
+}
+
+.reason-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.reason-card p {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+/* Get Started section */
+.get-started {
+  background-color: #3498db;
+  color: #fff;
+  padding: 60px 0;
+}
+
+.get-started .section-title {
+  color: #fff;
+}
+
+.steps-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.step {
+  flex-basis: calc(33.333% - 2rem);
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.step-number {
+  background-color: #fff;
+  color: #3498db;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0 auto 1rem;
+}
+
+.step h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.step p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.cta-button {
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 2rem auto 0;
+}
+
+.cta-button:hover {
+  background-color: #27ae60;
+}
+
+/* Partners section */
+.partners {
+  padding: 60px 0;
+  background-color: #fff;
+}
+
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+.partner-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.partner-logo:hover {
+  transform: scale(1.05);
+}
+
+.partner-logo img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .steps-container {
+      flex-direction: column;
+  }
+
+  .step {
+      flex-basis: 100%;
+  }
+
+  .partners-grid {
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Existing styles remain the same */
+
+/* Advanced Hero Section */
+.advanced-hero {
+  background: linear-gradient(135deg, #1a237e, #0d47a1);
+  color: #ffffff;
+  padding: 80px 0 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
+.crypto-ticker-container {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px 0;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.crypto-ticker-container::before,
+.crypto-ticker-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  z-index: 2;
+}
+
+.crypto-ticker-container::before {
+  left: 0;
+  background: linear-gradient(to right, #1a237e, transparent);
+}
+
+.crypto-ticker-container::after {
+  right: 0;
+  background: linear-gradient(to left, #1a237e, transparent);
+}
+
+.crypto-ticker {
+  display: flex;
+  animation: ticker 30s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes ticker {
+  0% {
+      transform: translateX(100%);
+  }
+  100% {
+      transform: translateX(-100%);
+  }
+}
+
+.crypto-ticker-item {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  font-weight: bold;
+}
+
+.crypto-ticker-item .symbol {
+  margin-right: 5px;
+}
+
+.crypto-ticker-item .price {
+  color: #4caf50;
+}
+
+.crypto-ticker-item .change {
+  margin-left: 5px;
+  font-size: 0.9em;
+}
+
+.crypto-ticker-item .change.positive {
+  color: #4caf50;
+}
+
+.crypto-ticker-item .change.negative {
+  color: #f44336;
+}
+
+.hero-cta {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.cta-button:first-child {
+  background-color: #4caf50;
+  color: #ffffff;
+}
+
+.cta-button:first-child:hover {
+  background-color: #45a049;
+}
+
+.cta-button.secondary {
+  background-color: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+.cta-button.secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .hero-title {
+      font-size: 2rem;
+  }
+
+  .hero-subtitle {
+      font-size: 1rem;
+  }
+
+  .hero-cta {
+      flex-direction: column;
+  }
+
+  .cta-button {
+      width: 100%;
+  }
+}
+
+.crypto-ticker {
+  overflow: hidden;
+  white-space: nowrap;
+  background-color: #f0f0f0;
+  padding: 10px 0;
+}
+
+.ticker-item {
+  display: inline-block;
+  padding: 0 20px;
+  animation: ticker-slide 20s linear infinite;
+}
+
+.crypto-symbol {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.crypto-price {
+  margin-right: 5px;
+}
+
+.crypto-change.positive {
+  color: green;
+}
+
+.crypto-change.negative {
+  color: red;
+}
+
+@keyframes ticker-slide {
+  0% {
+      transform: translateX(100%);
+  }
+  100% {
+      transform: translateX(-100%);
+  }
+}
+
+/* Add this to your existing CSS file */
+
+.popular-crypto {
+  padding: 2rem 0;
+  background-color: #f8f9fa;
+}
+
+.crypto-card-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+.crypto-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.crypto-card:hover {
+  transform: translateY(-5px);
+}
+
+.crypto-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.crypto-card .price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.crypto-card .chart {
+  width: 100%;
+  height: 100px;
+}
+
+@media (min-width: 768px) {
+  .crypto-card-grid {
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .crypto-card-grid {
+      grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.favorite-crypto {
+  padding: 2rem 0;
+  background-color: #f0f2f5;
+}
+
+.favorite-crypto-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+.favorite-crypto-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.favorite-crypto-card:hover {
+  transform: translateY(-5px);
+}
+
+.favorite-crypto-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.favorite-crypto-card .price {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #4a4a4a;
+}
+
+.favorite-crypto-card .chart-container {
+  position: relative;
+  height: 200px;
+  margin-bottom: 1rem;
+}
+
+.favorite-crypto-card canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.chart-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.chart-button {
+  padding: 0.5rem 1rem;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chart-button.active {
+  background-color: #4e38d8;
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .favorite-crypto-grid {
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+.rates-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.rates-table th, .rates-table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+}
+
+.rates-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #333;
+}
+
+.rates-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.currency-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.flag {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.rate-cell {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.rate-cell.highlight {
+  background-color: #e3f2fd;
+}
+.rates-table tr:hover {
+  background-color: #e3f2fd;
+  transition: background-color 0.2s ease;
+}
+
+.rates-table td:hover, 
+.rates-table th:hover {
+  background-color: #bbdefb;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.rates-table td.rate-cell:hover {
+  font-weight: bold;
+  color: #0d47a1;
+}
+
+@media (max-width: 768px) {
+  .rates-table {
+      font-size: 14px;
+  }
+
+  .rates-table th, .rates-table td {
+      padding: 8px;
+  }
+}
