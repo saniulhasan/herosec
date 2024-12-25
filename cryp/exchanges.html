@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Exchange</title>
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 1px;
+            height: 100vh;
+            background-color: #fff;
+        }
+
+        .sidebar {
+            background-color: #fff;
+            border-right: 1px solid #eee;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .trading-pair {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .positive { color: #00c853; }
+        .negative { color: #ff3d00; }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-container {
+            height: 60%;
+            position: relative;
+        }
+
+        .trading-form {
+            height: 40%;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .order-book {
+            background-color: #fff;
+            border-left: 1px solid #eee;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid #2196f3;
+        }
+
+        .trade-form {
+            display: grid;
+            gap: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .percentage-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .percentage-button {
+            flex: 1;
+            padding: 5px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .buy-button, .sell-button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .buy-button {
+            background-color: #00c853;
+        }
+
+        .sell-button {
+            background-color: #ff3d00;
+        }
+		
+		order-book-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 10px;
+}
+
+.price-summary {
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.price-summary-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.price-label {
+    font-size: 12px;
+    color: #666;
+}
+
+.price-value {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.order-book-section {
+    flex: 1;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.order-book-header {
+    position: sticky;
+    top: 0;
+    background: #f8f9fa;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid #eee;
+}
+
+.order-book-rows {
+    height: 300px;
+    overflow-y: auto;
+}
+
+.order-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.order-row:hover {
+    background: #f8f9fa;
+}
+
+.ask {
+    color: #ff3d00;
+}
+
+.bid {
+    color: #00c853;
+}
+
+.recent-trades {
+    height: 200px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.recent-trades-header {
+    position: sticky;
+    top: 0;
+    background: #f8f9fa;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid #eee;
+}
+
+.trade-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 4px 8px;
+    font-size: 12px;
+}
+     .search-container {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .main-crypto-list {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .main-crypto-item {
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .main-crypto-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .main-crypto-item.active {
+            background-color: #e0e0e0;
+            font-weight: bold;
+        }
+
+        .pairs-container {
+            padding: 15px;
+        }
+
+        .pairs-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .pair-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            padding: 5px 0;
+            font-size: 12px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .pair-name {
+            cursor: pointer;
+        }
+
+        .pair-price {
+            text-align: right;
+        }
+
+        .pair-change {
+            text-align: right;
+        }
+
+        .positive {
+            color: #00c853;
+        }
+
+        .negative {
+            color: #ff3d00;
+        }
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+               <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search...">
+        </div>
+        <div class="main-crypto-list">
+            <span class="main-crypto-item active" data-crypto="BTC">BTC</span>
+            <span class="main-crypto-item" data-crypto="ETH">ETH</span>
+            <span class="main-crypto-item" data-crypto="NEO">NEO</span>
+            <span class="main-crypto-item" data-crypto="USDT">USDT</span>
+            <span class="main-crypto-item" data-crypto="DAI">DAI</span>
+        </div>
+        <div class="pairs-container">
+            <div class="pairs-header">
+                <div>Pairs</div>
+                <div>Last Price</div>
+                <div>Change</div>
+            </div>
+            <div id="pairs-list"></div>
+        </div>
+            <!-- Add more trading pairs -->
+        </div>
+
+        <div class="main-content">
+            <div class="chart-container" id="chart"></div>
+            <div class="trading-form">
+                <div class="tabs">
+                    <button class="tab active">Limit</button>
+                    <button class="tab">Market</button>
+                    <button class="tab">Stop Limit</button>
+                </div>
+                <form class="trade-form">
+                    <div class="input-group">
+                        <label>Price</label>
+                        <input type="number" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="input-group">
+                        <label>Amount</label>
+                        <input type="number" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="percentage-buttons">
+                        <button type="button" class="percentage-button">25%</button>
+                        <button type="button" class="percentage-button">50%</button>
+                        <button type="button" class="percentage-button">75%</button>
+                        <button type="button" class="percentage-button">100%</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button type="button" class="buy-button">BUY</button>
+                        <button type="button" class="sell-button">SELL</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="order-book">
+    <div class="order-book-container">
+        <div class="price-summary">
+            <div class="price-summary-content">
+			
+                <div>
+                    <div class="price-label">Last Price</div>
+                    <div class="price-value">0.020367</div>
+                </div>
+                <div>
+                    <div class="price-label">USD</div>
+                    <div class="price-value">148.65</div>
+                </div>
+                <div>
+                    <div class="price-label">Change</div>
+                    <div class="price-value negative">-0.51%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="order-book-section">
+            
+            <div class="order-book-rows" id="asks">
+                <!-- Asks (Sell orders) -->
+                <div class="order-row ask">
+                    <div>0.023378</div>
+                    <div>1.206715</div>
+                    <div>15.25348</div>
+                </div>
+                <!-- Add more ask rows dynamically -->
+            </div>
+			<div class="order-book-header">
+                <div>Price(BTC)</div>
+                <div>Amount(ETH)</div>
+                <div>Total(ETH)</div>
+            </div>
+            <div class="order-book-rows" id="bids">
+                <!-- Bids (Buy orders) -->
+                <div class="order-row bid">
+                    <div>0.023375</div>
+                    <div>1.205715</div>
+                    <div>15.25348</div>
+                </div>
+                <!-- Add more bid rows dynamically -->
+            </div>
+        </div>
+
+        <div class="recent-trades">
+		  <h2>Recent </h2>
+            <div class="recent-trades-header">
+                <div>Time</div>
+                <div>Price(BTC)</div>
+                <div>Amount(ETH)</div>
+            </div>
+            <div id="trades-container">
+                <!-- Recent trades will be added here -->
+                <div class="trade-row">
+                    <div>13:03:53</div>
+                    <div class="bid">0.020191</div>
+                    <div>0.2155045</div>
+                </div>
+                <!-- Add more trade rows dynamically -->
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+
+    <script>
+        // Initialize chart
+        const chart = LightweightCharts.createChart(document.getElementById('chart'), {
+            width: document.querySelector('.chart-container').offsetWidth,
+            height: document.querySelector('.chart-container').offsetHeight,
+            layout: {
+                backgroundColor: '#ffffff',
+                textColor: '#333',
+            },
+            grid: {
+                vertLines: {
+                    color: '#f0f0f0',
+                },
+                horzLines: {
+                    color: '#f0f0f0',
+                },
+            },
+            crosshair: {
+                mode: LightweightCharts.CrosshairMode.Normal,
+            },
+            timeScale: {
+                borderColor: '#f0f0f0',
+            },
+        });
+
+        // Add candlestick series
+        const candleSeries = chart.addCandlestickSeries();
+
+        // Sample data
+        const data = [
+            { time: '2023-12-22', open: 43000, high: 44000, low: 42500, close: 43500 },
+            { time: '2023-12-23', open: 43500, high: 44500, low: 43000, close: 44000 },
+            { time: '2023-12-24', open: 44000, high: 45000, low: 43800, close: 44200 },
+            // Add more data points
+        ];
+
+        candleSeries.setData(data);
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            chart.applyOptions({
+                width: document.querySelector('.chart-container').offsetWidth,
+                height: document.querySelector('.chart-container').offsetHeight,
+            });
+        });
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelector('.tab.active').classList.remove('active');
+                tab.classList.add('active');
+            });
+        });
+
+        // Percentage buttons
+        document.querySelectorAll('.percentage-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const percentage = parseInt(button.textContent);
+                // Implement percentage logic here
+            });
+        });
+		
+		
+		function generateOrderBook() {
+    const asks = document.getElementById('asks');
+    const bids = document.getElementById('bids');
+    
+    // Clear existing content
+    asks.innerHTML = '';
+    bids.innerHTML = '';
+    
+    // Generate sample ask orders
+    for(let i = 0; i < 20; i++) {
+        const price = (0.023378 + (i * 0.000001)).toFixed(6);
+        const amount = (1.206715 + (i * 0.01)).toFixed(6);
+        const total = (price * amount).toFixed(5);
+        
+        asks.innerHTML += `
+            <div class="order-row ask">
+                <div>${price}</div>
+                <div>${amount}</div>
+                <div>${total}</div>
+            </div>
+        `;
+    }
+    
+    // Generate sample bid orders
+    for(let i = 0; i < 20; i++) {
+        const price = (0.023375 - (i * 0.000001)).toFixed(6);
+        const amount = (1.205715 + (i * 0.01)).toFixed(6);
+        const total = (price * amount).toFixed(5);
+        
+        bids.innerHTML += `
+            <div class="order-row bid">
+                <div>${price}</div>
+                <div>${amount}</div>
+                <div>${total}</div>
+            </div>
+        `;
+    }
+}
+
+function generateRecentTrades() {
+    const tradesContainer = document.getElementById('trades-container');
+    tradesContainer.innerHTML = '';
+    
+    for(let i = 0; i < 50; i++) {
+        const time = new Date();
+        time.setSeconds(time.getSeconds() - i);
+        const timeString = time.toLocaleTimeString();
+        const price = (0.020191 + (Math.random() * 0.000010)).toFixed(6);
+        const amount = (0.2155045 + (Math.random() * 0.01)).toFixed(7);
+        const type = Math.random() > 0.5 ? 'bid' : 'ask';
+        
+        tradesContainer.innerHTML += `
+            <div class="trade-row">
+                <div>${timeString}</div>
+                <div class="${type}">${price}</div>
+                <div>${amount}</div>
+            </div>
+        `;
+    }
+}
+ const pairsData = [
+            { base: 'BTC', quote: 'USDT', lastPrice: 29850.25, change: 1.58 },
+            { base: 'ETH', quote: 'USDT', lastPrice: 1890.75, change: -0.6 },
+            { base: 'NEO', quote: 'USDT', lastPrice: 10.23, change: -0.55 },
+            { base: 'BTC', quote: 'ETH', lastPrice: 15.78, change: 1.8 },
+            { base: 'NEO', quote: 'BTC', lastPrice: 0.00034521, change: -2.05 },
+            { base: 'ETH', quote: 'DAI', lastPrice: 1891.50, change: -1.05 },
+            { base: 'BTC', quote: 'DAI', lastPrice: 29855.00, change: 1.5 },
+            { base: 'USDT', quote: 'DAI', lastPrice: 1.0001, change: -0.05 },
+            { base: 'NEO', quote: 'ETH', lastPrice: 0.00541, change: 2.05 },
+            { base: 'BTC', quote: 'NEO', lastPrice: 2920.15, change: 2.85 },
+            { base: 'ETH', quote: 'BTC', lastPrice: 0.06338, change: -1.2 },
+            { base: 'DAI', quote: 'USDT', lastPrice: 0.9999, change: 0.01 },
+            { base: 'NEO', quote: 'DAI', lastPrice: 10.25, change: 0.78 },
+            { base: 'USDT', quote: 'BTC', lastPrice: 0.000033, change: -1.52 },
+            { base: 'DAI', quote: 'ETH', lastPrice: 0.000528, change: 0.95 }
+        ];
+
+        let activeCrypto = 'BTC';
+        let searchTerm = '';
+
+        function renderPairs(pairs) {
+            const pairsList = document.getElementById('pairs-list');
+            pairsList.innerHTML = '';
+
+            pairs.forEach(pair => {
+                const pairElement = document.createElement('div');
+                pairElement.className = 'pair-row';
+                let pairName, price, change;
+
+                if (activeCrypto === pair.base) {
+                    pairName = `${pair.base}/${pair.quote}`;
+                    price = pair.lastPrice;
+                    change = pair.change;
+                } else {
+                    pairName = `${pair.quote}/${pair.base}`;
+                    price = 1 / pair.lastPrice;
+                    change = -pair.change;
+                }
+
+                pairElement.innerHTML = `
+                    <div class="pair-name">${pairName}</div>
+                    <div class="pair-price">${price.toFixed(8)}</div>
+                    <div class="pair-change ${change >= 0 ? 'positive' : 'negative'}">
+                        ${change >= 0 ? '+' : ''}${change.toFixed(2)}%
+                    </div>
+                `;
+                pairsList.appendChild(pairElement);
+            });
+        }
+
+        function filterPairs() {
+            return pairsData.filter(pair => 
+                (pair.base === activeCrypto || pair.quote === activeCrypto) &&
+                (pair.base.toLowerCase().includes(searchTerm) || pair.quote.toLowerCase().includes(searchTerm))
+            );
+        }
+
+        function updatePairs() {
+            const filteredPairs = filterPairs();
+            renderPairs(filteredPairs);
+        }
+
+        function initializeSearch() {
+            const searchInput = document.querySelector('.search-input');
+            searchInput.addEventListener('input', (e) => {
+                searchTerm = e.target.value.toLowerCase();
+                updatePairs();
+            });
+        }
+
+        function initializeCryptoSelection() {
+            const cryptoItems = document.querySelectorAll('.main-crypto-item');
+            cryptoItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    cryptoItems.forEach(i => i.classList.remove('active'));
+                    e.target.classList.add('active');
+                    activeCrypto = e.target.getAttribute('data-crypto');
+                    updatePairs();
+                });
+            });
+        }
+
+        // Initial render
+        updatePairs();
+        initializeSearch();
+        initializeCryptoSelection();
+
+// Initialize order book and recent trades
+generateOrderBook();
+generateRecentTrades();
+setInterval(() => {
+    generateOrderBook();
+    generateRecentTrades();
+}, 5000);
+    </script>
+</body>
+</html>
