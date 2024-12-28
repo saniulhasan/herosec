@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark/Light Theme Toggle</title>
+  <style>
+    :root {
+      --background-color: #ffffff;
+      --text-color: #000000;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: var(--text-color);
+      color: var(--background-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    /* Dark Theme */
+    body.dark {
+      --background-color: #121212;
+      --text-color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Dark/Light Theme Example</h1>
+    <p>This is a demo of dark and light themes.</p>
+    <button id="themeToggle">Toggle Theme</button>
+  </div>
+  <script>
+    const themeToggleButton = document.getElementById('themeToggle');
+    const body = document.body;
+
+    // Check for saved theme in localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      body.classList.add(savedTheme);
+    }
+
+    themeToggleButton.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      const currentTheme = body.classList.contains('dark') ? 'dark' : '';
+      localStorage.setItem('theme', currentTheme); // Save the theme in localStorage
+    });
+  </script>
+</body>
+</html>
