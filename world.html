@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Clock</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(to right, #2c3e50, #3498db);
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      margin-top: 100px;
+    }
+
+    #clock {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    h2 {
+      font-size: 3rem;
+      margin: 10px 0;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    select {
+      padding: 10px;
+      font-size: 1.2rem;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>World Clock</h1>
+    <select id="city-selector">
+      <option value="Asia/Kolkata">Kolkata</option>
+      <option value="America/New_York">New York</option>
+      <option value="Europe/London">London</option>
+      <option value="Asia/Tokyo">Tokyo</option>
+      <option value="Australia/Sydney">Sydney</option>
+    </select>
+    <div id="clock">
+      <h2 id="time">--:--:--</h2>
+      <h3 id="date">Select a city to see the date</h3>
+    </div>
+  </div>
+  <script>
+    const timeElement = document.getElementById("time");
+    const dateElement = document.getElementById("date");
+    const citySelector = document.getElementById("city-selector");
+
+    function updateTime() {
+      const selectedCity = citySelector.value;
+      const now = new Date().toLocaleString("en-US", { timeZone: selectedCity });
+
+      const currentDate = new Date(now);
+      const hours = String(currentDate.getHours()).padStart(2, "0");
+      const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+      const seconds = String(currentDate.getSeconds()).padStart(2, "0");
+      
+      const day = currentDate.toLocaleString("en-US", { weekday: "long" });
+      const date = currentDate.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric"
+      });
+
+      timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+      dateElement.textContent = `${day}, ${date}`;
+    }
+
+    // Update the clock every second
+    setInterval(updateTime, 1000);
+
+    // Trigger the update when the user changes the city
+    citySelector.addEventListener("change", updateTime);
+
+    // Initialize the clock with the first city
+    updateTime();
+  </script>
+</body>
+</html>
