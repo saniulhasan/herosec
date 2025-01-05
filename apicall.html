@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Call Example</title>
+</head>
+<body>
+  <h1>API Call Example</h1>
+  <button id="fetch-data">Fetch Data</button>
+  <div id="output"></div>
+
+  <script>
+    const button = document.getElementById('fetch-data');
+    const output = document.getElementById('output');
+
+    button.addEventListener('click', () => {
+      fetch('https://jsonplaceholder.typicode.com/posts/1') // Example API
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+          return response.json(); // Convert response to JSON
+        })
+        .then(data => {
+          output.innerHTML = `
+            <h2>${data.title}</h2>
+            <p>${data.body}</p>
+          `;
+        })
+        .catch(error => {
+          output.innerHTML = `<p>Error: ${error.message}</p>`;
+        });
+    });
+  </script>
+</body>
+</html>
