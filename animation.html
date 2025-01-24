@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js Animation Example</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 14px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">Three.js Animation Example</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Scene setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(1, 1, 1);
+        scene.add(directionalLight);
+
+        // Create a rotating cube
+        const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+        const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+        const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        cube.position.x = -2;
+        scene.add(cube);
+
+        // Create a bouncing sphere
+        const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        sphere.position.set(0, 2, 0);
+        scene.add(sphere);
+
+        // Create a color-changing torus
+        const torusGeometry = new THREE.TorusGeometry(0.5, 0.2, 16, 100);
+        const torusMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+        const torus = new THREE.Mesh(torusGeometry, torusMaterial);
+        torus.position.x = 2;
+        scene.add(torus);
+
+        // Set up camera position
+        camera.position.z = 5;
+
+        // Animation variables
+        let time = 0;
+        const sphereAmplitude = 1;
+        const sphereFrequency = 2;
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate the cube
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+
+            // Bounce the sphere
+            time += 0.016; // Assuming 60fps
+            sphere.position.y = 2 + Math.sin(time * sphereFrequency) * sphereAmplitude;
+
+            // Change torus color
+            const hue = (time * 0.1) % 1;
+            torusMaterial.color.setHSL(hue, 1, 0.5);
+            torus.rotation.x += 0.01;
+            torus.rotation.y += 0.01;
+
+            renderer.render(scene, camera);
+        }
+
+        // Handle window resizing
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Start the animation loop
+        animate();
+    </script>
+</body>
+</html>
