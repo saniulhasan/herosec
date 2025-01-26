@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Three.js Geometric Shapes</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-family: Arial;
+            font-size: 14px;
+            background: rgba(0,0,0,0.7);
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">Three.js Geometric Shapes:<br>
+        Box, Sphere, Plane, Cone, Torus, Cylinder, Circle, Icosahedron, Dodecahedron
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Scene setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Create geometries
+        const geometries = [
+            { shape: new THREE.BoxGeometry(1, 1, 1), pos: [0, 0, 0] },
+            { shape: new THREE.SphereGeometry(0.5, 32, 16), pos: [-3, 0, 0] },
+            { shape: new THREE.PlaneGeometry(1, 1), pos: [3, 0, 0], rot: [Math.PI/2, 0, 0] },
+            { shape: new THREE.ConeGeometry(0.5, 1, 32), pos: [0, 3, 0] },
+            { shape: new THREE.TorusGeometry(0.5, 0.2, 16, 100), pos: [0, -3, 0] },
+            { shape: new THREE.CylinderGeometry(0.5, 0.5, 1, 32), pos: [0, 0, 3] },
+            { shape: new THREE.CircleGeometry(0.5, 32), pos: [0, 0, -3], rot: [Math.PI/2, 0, 0] },
+            { shape: new THREE.IcosahedronGeometry(0.5, 0), pos: [-3, 3, 0] },
+            { shape: new THREE.DodecahedronGeometry(0.5, 0), pos: [3, 3, 0] }
+        ];
+
+        // Create meshes with normal material
+        const meshes = geometries.map(config => {
+            const material = new THREE.MeshNormalMaterial();
+            const mesh = new THREE.Mesh(config.shape, material);
+            mesh.position.set(...config.pos);
+            if(config.rot) mesh.rotation.set(...config.rot);
+            scene.add(mesh);
+            return {
+                mesh: mesh,
+                speed: Math.random() * 0.02 + 0.01
+            };
+        });
+
+        // Position camera
+        camera.position.set(10, 10, 10);
+        camera.lookAt(0, 0, 0);
+
+        // Add lights
+        const light = new THREE.PointLight(0xffffff, 1, 100);
+        light.position.set(10, 10, 10);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0x404040));
+
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            meshes.forEach(obj => {
+                obj.mesh.rotation.x += obj.speed;
+                obj.mesh.rotation.y += obj.speed;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>
