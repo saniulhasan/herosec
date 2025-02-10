@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Material Properties Demo</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <!-- Include Three.js, dat.GUI, and Cannon.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
+  <script>
+    // --- THREE.JS SETUP ---
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
+    camera.position.set(0, 5, 15);
+    
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    
+    // Basic lighting
+    const ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
+    scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 10, 5);
+    scene.add(directionalLight);
+    
+    // --- CANNON.JS SETUP ---
+    const world = new CANNON.World();
+    world.gravity.set(0, -9.82, 0);
+    world.broadphase = new CANNON.NaiveBroadphase();
+    world.solver.iterations = 10;
+    
+    // Create two materials: one for the ground and one for the sphere.
+    const groundMaterial = new CANNON.Material('groundMaterial');
+    const sphereMaterial = new CANNON.Material('sphereMaterial');
+    
+    // Create a ContactMaterial that defines how the sphere and ground interact.
+    // Friction controls sliding resistance and restitution defines the bounciness.
+    let frictionValue = 0.3;
+    let restitutionValue = 0.7;
+    const contactMaterial = new CANNON.ContactMaterial(sphereMaterial, groundMaterial, {
+      friction: frictionValue,
+      restitution: restitutionValue,
+    });
+    world.addContactMaterial(contactMaterial);
+    
+    // --- GROUND ---
+    // Create a ground plane in Three.js
+    const groundGeometry = new THREE.PlaneGeometry(20, 20);
+    const groundMeshMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
+    const groundMesh = new THREE.Mesh(groundGeometry, groundMeshMaterial);
+    groundMesh.rotation.x = -Math.PI / 2;
+    scene.add(groundMesh);
+    
+    // Create the ground body in Cannon.js using the ground material.
+    const groundShape = new CANNON.Plane();
+    const groundBody = new CANNON.Body({ mass: 0, material: groundMaterial });
+    groundBody.addShape(groundShape);
+    groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
+    world.addBody(groundBody);
+    
+    // --- SPHERE ---
+    // Create a red sphere in Three.js
+    const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+    const sphereMeshMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+    const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMeshMaterial);
+    scene.add(sphereMesh);
+    
+    // Create the sphere body in Cannon.js using the sphere material.
+    const sphereShape = new CANNON.Sphere(1);
+    const sphereBody = new CANNON.Body({ mass: 1, material: sphereMaterial });
+    sphereBody.addShape(sphereShape);
+    sphereBody.position.set(0, 10, 0);
+    world.addBody(sphereBody);
+    
+    // --- DAT.GUI SETUP ---
+    // This GUI lets you adjust friction and restitution in real time.
+    const gui = new dat.GUI();
+    const settings = {
+      friction: frictionValue,
+      restitution: restitutionValue,
+      resetSphere: function() {
+        // Reset sphere position and velocity for testing.
+        sphereBody.position.set(0, 10, 0);
+        sphereBody.velocity.set(0, 0, 0);
+        sphereBody.angularVelocity.set(0, 0, 0);
+        sphereBody.quaternion.set(0, 0, 0, 1);
+        sphereBody.force.set(0, 0, 0);
+        sphereBody.torque.set(0, 0, 0);
+        sphereBody.wakeUp();
+      }
+    };
+    
+    gui.add(settings, 'friction', 0, 1).step(0.01).onChange((value) => {
+      contactMaterial.friction = value;
+    });
+    
+    gui.add(settings, 'restitution', 0, 1).step(0.01).onChange((value) => {
+      contactMaterial.restitution = value;
+    });
+    
+    gui.add(settings, 'resetSphere').name('Reset Sphere');
+    
+    // --- ANIMATION LOOP ---
+    const timeStep = 1 / 60;
+    function animate() {
+      requestAnimationFrame(animate);
+      world.step(timeStep);
+      
+      // Synchronize the sphere's Three.js mesh with the Cannon.js body.
+      sphereMesh.position.copy(sphereBody.position);
+      sphereMesh.quaternion.copy(sphereBody.quaternion);
+      
+      renderer.render(scene, camera);
+    }
+    animate();
+    
+    // --- HANDLE WINDOW RESIZE ---
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
