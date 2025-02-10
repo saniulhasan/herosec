@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Three.js Physics</title>
+    <style>
+        * { margin: 0; padding: 0; overflow: hidden; box-sizing: border-box; }
+        canvas { display: block; width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <script type="module">
+        import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.min.js";
+        import { World, Body, Box, Vec3, Plane, Material, ContactMaterial } from "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js";
+
+        // ✅ Scene, Camera, and Renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // ✅ Lighting
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(5, 5, 5);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0x404040));
+
+        // ✅ Cube (Three.js)
+        const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+        const cubeMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        scene.add(cube);
+
+        // ✅ Ground Plane (Three.js)
+        const groundGeometry = new THREE.PlaneGeometry(10, 10);
+        const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        ground.rotation.x = -Math.PI / 2;
+        scene.add(ground);
+
+        // ✅ Physics World (Cannon-es)
+        const world = new World();
+        world.gravity.set(0, -9.82, 0);
+
+        // ✅ Physics Materials
+        const cubePhysicsMaterial = new Material('cube');
+        const groundPhysicsMaterial = new Material('ground');
+
+        // ✅ Contact Material
+        const contactMaterial = new ContactMaterial(
+            groundPhysicsMaterial,
+            cubePhysicsMaterial,
+            {
+                friction: 0.5,    // Surface friction
+                restitution: 0.7, // Bounciness (0 = no bounce, 1 = full bounce)
+                contactEquationStiffness: 1e8,
+            }
+        );
+        world.addContactMaterial(contactMaterial);
+
+        // ✅ Cube Physics Body with enhanced properties
+        const cubeBody = new Body({
+            mass: 1,
+            shape: new Box(new Vec3(0.5, 0.5, 0.5)),
+            position: new Vec3(0, 5, 0),
+            material: cubePhysicsMaterial,
+            angularDamping: 0.5,   // Rotation resistance
+            linearDamping: 0.1,    // Air resistance
+            velocity: new Vec3(2, 0, 0), // Initial horizontal velocity
+            angularVelocity: new Vec3(0, 5, 0) // Initial spin
+        });
+        world.addBody(cubeBody);
+
+        // ✅ Ground Physics Body with collision filtering
+        const groundBody = new Body({
+            mass: 0,
+            shape: new Plane(),
+            material: groundPhysicsMaterial,
+            collisionFilterGroup: 1, // Collision group
+            collisionFilterMask: 2   // Collides with group 2
+        });
+        cubeBody.collisionFilterGroup = 2; // Cube will collide with ground (group 1 & 2)
+        groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
+        world.addBody(groundBody);
+
+        // ✅ Add multiple cubes
+        function createRandomCube() {
+            const cubeClone = cube.clone();
+            cubeClone.material = cubeClone.material.clone();
+            cubeClone.material.color.setHex(Math.random() * 0xffffff);
+            scene.add(cubeClone);
+
+            const cubeBodyClone = new Body({
+                mass: 1,
+                shape: new Box(new Vec3(0.5, 0.5, 0.5)),
+                position: new Vec3(
+                    (Math.random() - 0.5) * 5,
+                    10 + Math.random() * 5,
+                    (Math.random() - 0.5) * 5
+                ),
+                angularVelocity: new Vec3(
+                    Math.random() * 5,
+                    Math.random() * 5,
+                    Math.random() * 5
+                )
+            });
+            world.addBody(cubeBodyClone);
+            return { mesh: cubeClone, body: cubeBodyClone };
+        }
+
+        const cubes = Array.from({ length: 5 }, createRandomCube);
+
+        // ✅ Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            world.step(1 / 60);
+            
+            // Update original cube
+            cube.position.copy(cubeBody.position);
+            cube.quaternion.copy(cubeBody.quaternion);
+            
+            // Update cloned cubes
+            cubes.forEach(({ mesh, body }) => {
+                mesh.position.copy(body.position);
+                mesh.quaternion.copy(body.quaternion);
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        // ✅ Event Listeners
+        window.addEventListener('click', createRandomCube);
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Start
+        camera.position.set(0, 8, 15);
+        camera.lookAt(0, 0, 0);
+        animate();
+    </script>
+</body>
+</html>

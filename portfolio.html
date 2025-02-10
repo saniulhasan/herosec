@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Haunted Graveyard</title>
+    <style>
+        * { margin: 0; padding: 0; }
+        canvas { display: block; }
+        body { 
+            background: #000;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #ff0000;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">WASD to move | Mouse to look | F: Flashlight</div>
+
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+        class HorrorScene {
+            constructor() {
+                this.textureLoader = new THREE.TextureLoader();
+                this.init();
+                this.createEnvironment();
+                this.createHouse();
+                this.createGraveyard();
+                this.addLights();
+                this.addAudio();
+                this.animate();
+                this.addEventListeners();
+            }
+
+            async init() {
+                this.scene = new THREE.Scene();
+                this.scene.fog = new THREE.Fog(0x000000, 1, 30);
+
+                // Camera
+                this.camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+                this.camera.position.set(0, 1.6, 5);
+
+                // Renderer
+                this.renderer = new THREE.WebGLRenderer({ antialias: true });
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+                this.renderer.shadowMap.enabled = true;
+                this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                document.body.appendChild(this.renderer.domElement);
+
+                // Controls
+                this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+                this.controls.enableDamping = true;
+
+                // Clock
+                this.clock = new THREE.Clock();
+                this.moveSpeed = 5;
+                this.flashlightOn = false;
+
+                // Load textures
+                this.brickTexture = await this.loadTexture('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/brick_diffuse.jpg');
+                this.brickNormal = await this.loadTexture('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/brick_normal.jpg');
+                this.woodTexture = await this.loadTexture('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/wood_diffuse.jpg');
+                this.groundTexture = await this.loadTexture('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/terrain/grass_02_diff_1k.jpg');
+            }
+
+            loadTexture(url) {
+                return new Promise(resolve => {
+                    this.textureLoader.load(url, resolve);
+                });
+            }
+
+            createEnvironment() {
+                // Ground
+                const groundMaterial = new THREE.MeshStandardMaterial({
+                    map: this.groundTexture,
+                    roughness: 0.9,
+                    metalness: 0.1
+                });
+                
+                const ground = new THREE.Mesh(
+                    new THREE.PlaneGeometry(100, 100),
+                    groundMaterial
+                );
+                ground.rotation.x = -Math.PI / 2;
+                ground.receiveShadow = true;
+                this.scene.add(ground);
+
+                // Sky
+                const skyTexture = this.textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/cube/SwedishRoyalCastle/px.jpg');
+                const skyMaterial = new THREE.MeshBasicMaterial({ map: skyTexture, side: THREE.BackSide });
+                const skyGeometry = new THREE.SphereGeometry(500, 60, 60);
+                const sky = new THREE.Mesh(skyGeometry, skyMaterial);
+                this.scene.add(sky);
+            }
+
+            createHouse() {
+                // House walls
+                const wallMaterial = new THREE.MeshStandardMaterial({
+                    map: this.brickTexture,
+                    normalMap: this.brickNormal,
+                    roughness: 0.8,
+                    metalness: 0.2
+                });
+
+                const house = new THREE.Group();
+
+                // Main structure
+                const walls = new THREE.Mesh(
+                    new THREE.BoxGeometry(5, 4, 5),
+                    wallMaterial
+                );
+                walls.position.y = 2;
+                walls.castShadow = true;
+                walls.receiveShadow = true;
+
+                // Roof
+                const roofGeometry = new THREE.ConeGeometry(4, 2, 4);
+                const roofMaterial = new THREE.MeshStandardMaterial({
+                    color: 0x333333,
+                    roughness: 0.9
+                });
+                const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+                roof.rotation.y = Math.PI / 4;
+                roof.position.y = 4.5;
+
+                // Door
+                const doorMaterial = new THREE.MeshStandardMaterial({
+                    map: this.woodTexture,
+                    roughness: 0.7
+                });
+                const door = new THREE.Mesh(
+                    new THREE.BoxGeometry(1.2, 2.2, 0.2),
+                    doorMaterial
+                );
+                door.position.z = -2.5;
+
+                house.add(walls, roof, door);
+                house.position.set(0, 0, -15);
+                this.scene.add(house);
+            }
+
+            createGraveyard() {
+                const graveMaterial = new THREE.MeshStandardMaterial({
+                    color: 0x666666,
+                    roughness: 0.8
+                });
+
+                for(let i = 0; i < 30; i++) {
+                    const grave = new THREE.Mesh(
+                        new THREE.BoxGeometry(0.4, 1.2, 0.2),
+                        graveMaterial
+                    );
+                    grave.position.x = (Math.random() - 0.5) * 40;
+                    grave.position.z = (Math.random() * 20) - 5;
+                    grave.position.y = 0.6;
+                    grave.rotation.z = (Math.random() - 0.5) * 0.2;
+                    grave.castShadow = true;
+                    this.scene.add(grave);
+                }
+            }
+
+            addLights() {
+                // Moon light
+                this.moonLight = new THREE.DirectionalLight(0x5577aa, 0.3);
+                this.moonLight.position.set(10, 10, 10);
+                this.moonLight.castShadow = true;
+                this.scene.add(this.moonLight);
+
+                // House window light
+                this.windowLight = new THREE.PointLight(0xff4400, 5, 20);
+                this.windowLight.position.set(0, 3, -15);
+                this.windowLight.castShadow = true;
+                this.scene.add(this.windowLight);
+
+                // Flashlight
+                this.flashlight = new THREE.SpotLight(0xffffff, 10, 30, Math.PI/4);
+                this.flashlight.position.copy(this.camera.position);
+                this.flashlight.target = this.camera;
+                this.flashlight.castShadow = true;
+                this.flashlight.visible = false;
+                this.scene.add(this.flashlight);
+            }
+
+            addAudio() {
+                this.listener = new THREE.AudioListener();
+                this.camera.add(this.listener);
+
+                // Wind
+                this.windSound = new THREE.Audio(this.listener);
+                new THREE.AudioLoader().load('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3', buffer => {
+                    this.windSound.setBuffer(buffer);
+                    this.windSound.setLoop(true);
+                    this.windSound.setVolume(0.5);
+                });
+
+                // Footsteps
+                this.footstepSound = new THREE.Audio(this.listener);
+                new THREE.AudioLoader().load('https://assets.mixkit.co/active_storage/sfx/2993/2993-preview.mp3', buffer => {
+                    this.footstepSound.setBuffer(buffer);
+                    this.footstepSound.setLoop(true);
+                    this.footstepSound.setVolume(0);
+                });
+            }
+
+            animate() {
+                requestAnimationFrame(this.animate.bind(this));
+                
+                // Update flashlight
+                this.flashlight.position.copy(this.camera.position);
+                this.flashlight.rotation.copy(this.camera.rotation);
+
+                // Flickering window light
+                this.windowLight.intensity = Math.random() * 3 + 2;
+
+                this.controls.update();
+                this.renderer.render(this.scene, this.camera);
+            }
+
+            addEventListeners() {
+                window.addEventListener('resize', this.onWindowResize.bind(this));
+                document.addEventListener('keydown', this.onKeyDown.bind(this));
+                document.addEventListener('keyup', this.onKeyUp.bind(this));
+            }
+
+            onKeyDown(event) {
+                const delta = this.clock.getDelta();
+                const moveDistance = this.moveSpeed * delta;
+                
+                switch(event.key.toLowerCase()) {
+                    case 'w':
+                        this.camera.translateZ(-moveDistance);
+                        break;
+                    case 's':
+                        this.camera.translateZ(moveDistance);
+                        break;
+                    case 'a':
+                        this.camera.translateX(-moveDistance);
+                        break;
+                    case 'd':
+                        this.camera.translateX(moveDistance);
+                        break;
+                    case 'f':
+                        this.flashlightOn = !this.flashlightOn;
+                        this.flashlight.visible = this.flashlightOn;
+                        break;
+                }
+            }
+
+            onWindowResize() {
+                this.camera.aspect = window.innerWidth / window.innerHeight;
+                this.camera.updateProjectionMatrix();
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+        }
+
+        // Initialize scene
+        const horrorScene = new HorrorScene();
+    </script>
+</body>
+</html>

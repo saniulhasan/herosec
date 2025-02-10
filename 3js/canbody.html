@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Three.js + Cannon.js Collision with Reset</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
+  <script>
+    // Scene Setup
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 5, 10);
+
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Physics World
+    const world = new CANNON.World();
+    world.gravity.set(0, -9.8, 0);
+
+    // Ground (Three.js + Cannon.js)
+    const groundGeometry = new THREE.PlaneGeometry(10, 10);
+    const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x555555 });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2;
+    scene.add(ground);
+
+    const groundBody = new CANNON.Body({
+      mass: 0, // Static object
+      shape: new CANNON.Plane()
+    });
+    groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
+    world.addBody(groundBody);
+
+    // Sphere (Three.js + Cannon.js)
+    const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+    const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    scene.add(sphere);
+
+    const sphereBody = new CANNON.Body({
+      mass: 1,
+      shape: new CANNON.Sphere(1),
+      position: new CANNON.Vec3(0, 5, 0)
+    });
+    world.addBody(sphereBody);
+
+    // Lights
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(5, 10, 5);
+    scene.add(light);
+
+    // dat.GUI Controls
+    const gui = new dat.GUI();
+    const settings = {
+      gravity: -9.8,
+      mass: 1,
+      reset: function() {
+        // Reset sphere's physics properties to their initial state.
+        sphereBody.position.set(0, 5, 0);
+        sphereBody.velocity.set(0, 0, 0);
+        sphereBody.angularVelocity.set(0, 0, 0);
+        sphereBody.quaternion.set(0, 0, 0, 1);
+        // Clear any forces and torques that may have accumulated.
+        sphereBody.force.set(0, 0, 0);
+        sphereBody.torque.set(0, 0, 0);
+        // Wake up the body if it's sleeping.
+        sphereBody.wakeUp();
+      }
+    };
+
+    gui.add(settings, 'gravity', -20, 0).onChange(value => {
+      world.gravity.set(0, value, 0);
+    });
+
+    gui.add(settings, 'mass', 0.1, 5).onChange(value => {
+      sphereBody.mass = value;
+      sphereBody.updateMassProperties();
+    });
+
+    gui.add(settings, 'reset').name('Reset Sphere');
+
+    // Animation Loop
+    function animate() {
+      requestAnimationFrame(animate);
+      world.step(1 / 60);
+
+      // Copy the physics body's position & rotation to the Three.js mesh.
+      sphere.position.copy(sphereBody.position);
+      sphere.quaternion.copy(sphereBody.quaternion);
+
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>

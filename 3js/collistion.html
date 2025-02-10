@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collision Filtering Demo</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <!-- Three.js, dat.GUI, and Cannon.js libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
+  <script>
+    // --- THREE.JS SETUP ---
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
+    camera.position.set(0, 5, 12);
+    
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Add basic lighting
+    const ambientLight = new THREE.AmbientLight(0xaaaaaa);
+    scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5,10,5);
+    scene.add(directionalLight);
+
+    // --- CANNON.JS SETUP ---
+    const world = new CANNON.World();
+    world.gravity.set(0, -9.8, 0);
+
+    // Create a static ground plane (Three.js + Cannon.js)
+    const groundGeometry = new THREE.PlaneGeometry(20, 20);
+    const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
+    const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+    groundMesh.rotation.x = -Math.PI / 2;
+    scene.add(groundMesh);
+
+    const groundBody = new CANNON.Body({
+      mass: 0, // static body
+      shape: new CANNON.Plane()
+    });
+    groundBody.quaternion.setFromEuler(-Math.PI/2, 0, 0);
+    world.addBody(groundBody);
+
+    // --- OBJECTS WITH COLLISION FILTERING ---
+
+    // Create a blue box (the obstacle)
+    const boxGeometry = new THREE.BoxGeometry(4, 1, 4);
+    const boxMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff });
+    const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+    boxMesh.position.set(0, 2, 0);
+    scene.add(boxMesh);
+
+    const boxShape = new CANNON.Box(new CANNON.Vec3(2, 0.5, 2));
+    const boxBody = new CANNON.Body({
+      mass: 0, // static object
+      shape: boxShape,
+      position: new CANNON.Vec3(0, 2, 0)
+    });
+    // For demonstration, assign the box to collisionFilterGroup 2
+    boxBody.collisionFilterGroup = 2;
+    // And let it only collide with objects from group 1 (by default)
+    boxBody.collisionFilterMask = 1;
+    world.addBody(boxBody);
+
+    // Create a red sphere that will fall
+    const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+    const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+    const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    scene.add(sphereMesh);
+
+    const sphereShape = new CANNON.Sphere(1);
+    const sphereBody = new CANNON.Body({
+      mass: 1,
+      shape: sphereShape,
+      position: new CANNON.Vec3(0, 8, 0)
+    });
+    // Set initial collision filtering: sphere in group 1, colliding with group 2
+    sphereBody.collisionFilterGroup = 1;
+    sphereBody.collisionFilterMask = 2;
+    // Enable collision response by default
+    sphereBody.collisionResponse = true;
+    world.addBody(sphereBody);
+
+    // --- dat.GUI CONTROLS ---
+    const gui = new dat.GUI();
+    const settings = {
+      collisionResponse: sphereBody.collisionResponse,
+      collisionFilterGroup: sphereBody.collisionFilterGroup,
+      collisionFilterMask: sphereBody.collisionFilterMask,
+      resetSphere: function() {
+        // Reset the sphere's state for a new test
+        sphereBody.position.set(0, 8, 0);
+        sphereBody.velocity.set(0, 0, 0);
+        sphereBody.angularVelocity.set(0, 0, 0);
+        sphereBody.quaternion.set(0, 0, 0, 1);
+        sphereBody.force.set(0, 0, 0);
+        sphereBody.torque.set(0, 0, 0);
+        sphereBody.wakeUp();
+      }
+    };
+
+    // Toggle collision response (if false, the sphere will pass through without reacting)
+    gui.add(settings, 'collisionResponse').onChange(value => {
+      sphereBody.collisionResponse = value;
+    });
+
+    // Control the sphere's collisionFilterGroup (bitmask)
+    gui.add(settings, 'collisionFilterGroup', 0, 255).step(1).onChange(value => {
+      sphereBody.collisionFilterGroup = Number(value);
+    });
+
+    // Control the sphere's collisionFilterMask (bitmask)
+    gui.add(settings, 'collisionFilterMask', 0, 255).step(1).onChange(value => {
+      sphereBody.collisionFilterMask = Number(value);
+    });
+
+    gui.add(settings, 'resetSphere').name('Reset Sphere');
+
+    // --- RENDER LOOP ---
+    const timeStep = 1/60;
+    function animate() {
+      requestAnimationFrame(animate);
+      world.step(timeStep);
+      // Sync the Three.js mesh positions with the Cannon.js bodies.
+      sphereMesh.position.copy(sphereBody.position);
+      sphereMesh.quaternion.copy(sphereBody.quaternion);
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // --- Handle Window Resize ---
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth/window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
