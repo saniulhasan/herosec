@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Plans</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f9f9f9;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .pricing-container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .toggle-container span {
+            font-size: 14px;
+            margin: 0 10px;
+        }
+
+        /* Toggle switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .slider::before {
+            content: "";
+            position: absolute;
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #6a5acd;
+        }
+
+        input:checked + .slider::before {
+            transform: translateX(24px);
+        }
+
+        .pricing-plans {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .plan {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 30%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .personal {
+            background: #111233;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .plan h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .personal .description {
+            color: #bbb;
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 10px;
+        }
+
+        ul li {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .start-btn {
+            background: #6a5acd;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .start-btn:hover {
+            background: #5845c2;
+        }
+
+        @media (max-width: 768px) {
+            .pricing-plans {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .plan {
+                width: 80%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pricing-container">
+        <h2>Choose the best plan that you want</h2>
+
+        <div class="toggle-container">
+            <span>Pay Monthly</span>
+            <label class="switch">
+                <input type="checkbox" id="togglePricing">
+                <span class="slider"></span>
+            </label>
+            <span>Pay Yearly</span>
+        </div>
+
+        <div class="pricing-plans">
+            <div class="plan">
+                <h3>Standard Plan</h3>
+                <p class="price"><span class="amount">$150</span> /month</p>
+                <p class="description"> Duis aute irure dolor in reprehenderit voluptate dolore eu fugiat nulla pariatur.</p>
+                <ul>
+                    <li>✔️ Priority email & chat support</li>
+                    <li>✔️ Access to use-cases</li>
+                    <li>✔️ Generate 1,000 AI Words / month</li>
+                    <li>✔️ Google Docs style editor</li>
+                    <li>✔️ Compare & command features</li>
+                </ul>
+                <button class="start-btn">Start Now</button>
+            </div>
+
+            <div class="plan personal">
+                <h3>Personal Plan</h3>
+                <p class="price"><span class="amount">$150</span> /month</p>
+                <p class="description"> Duis aute irure dolor in reprehenderit voluptate dolore eu fugiat nulla pariatur.</p>
+                <ul>
+                    <li>✔️ Priority email & chat support</li>
+                    <li>✔️ Access to use-cases</li>
+                    <li>✔️ Generate 1,000 AI Words / month</li>
+                    <li>✔️ Google Docs style editor</li>
+                    <li>✔️ Compare & command features</li>
+                </ul>
+                <button class="start-btn">Start Now</button>
+            </div>
+
+            <div class="plan">
+                <h3>Premium Plan</h3>
+                <p class="price"><span class="amount">$150</span> /month</p>
+                <p class="description"> Duis aute irure dolor in reprehenderit voluptate dolore eu fugiat nulla pariatur.</p>
+                <ul>
+                    <li>✔️ Priority email & chat support</li>
+                    <li>✔️ Access to use-cases</li>
+                    <li>✔️ Generate 1,000 AI Words / month</li>
+                    <li>✔️ Google Docs style editor</li>
+                    <li>✔️ Compare & command features</li>
+                </ul>
+                <button class="start-btn">Start Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggle = document.getElementById("togglePricing");
+            const prices = document.querySelectorAll(".amount");
+
+            toggle.addEventListener("change", function () {
+                if (toggle.checked) {
+                    prices.forEach(price => price.innerText = "$1500"); // Yearly price
+                } else {
+                    prices.forEach(price => price.innerText = "$150"); // Monthly price
+                }
+            });
+        });
+    </script>
+</body>
+</html>

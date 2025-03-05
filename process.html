@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Process</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            padding: 20px;
+        }
+
+        .working-process {
+            color: #e91e63;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .step {
+            width: 22%;
+            text-align: center;
+        }
+
+        .step-number {
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            line-height: 25px;
+            margin: 0 auto 10px;
+            color: #fff;
+        }
+
+        .step:nth-child(2) .step-number {
+            background-color: #ff9800;
+        }
+
+        .step:not(:nth-child(2)) .step-number {
+            border: 1px solid #ccc;
+            color: #666;
+        }
+
+        .step-box {
+            width: 50px;
+            height: 50px;
+            background-color: #ddd;
+            margin: 0 auto 10px;
+        }
+
+        .step-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .step-description {
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        .line {
+            flex-grow: 1;
+            height: 1px;
+            background-color: #ccc;
+            margin-top: 12px;
+        }
+
+        .step:nth-child(2) ~ .step .line {
+            background-color: #ff9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="working-process">WORKING PROCESS</div>
+        <div class="title">Let's See Our all Work Process.</div>
+        <div class="description">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.</div>
+        <div class="process-steps">
+            <div class="step">
+                <div class="step-number">01</div>
+                <div class="step-box"></div>
+                <div class="step-title">Frame the Problem</div>
+                <div class="step-description">Lorem Ipsum is not simply random is It has roots in a piece of classical Latin literature from 45.</div>
+            </div>
+            <div class="line"></div>
+            <div class="step">
+                <div class="step-number">02</div>
+                <div class="step-box"></div>
+                <div class="step-title">Choosing the model</div>
+                <div class="step-description">Lorem Ipsum is not simply rondom is It has roots in a piece of classical Latin literature from 45.</div>
+            </div>
+             <div class="line"></div>
+            <div class="step">
+                <div class="step-number">03</div>
+                <div class="step-box"></div>
+                <div class="step-title">Collect the Data</div>
+                <div class="step-description">Lorem Ipsum is not simply random is It has roots in a piece of classical Latin literature from 45.</div>
+            </div>
+             <div class="line"></div>
+            <div class="step">
+                <div class="step-number">04</div>
+                <div class="step-box"></div>
+                <div class="step-title">Process the Data</div>
+                <div class="step-description">Lorem ipsum is not simply random is It has roots in a piece of classical Latin literature from 45.</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
