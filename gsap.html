@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP ScrollTrigger Start/End Demo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 200vh;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 80%;
+            margin: 100px auto;
+        }
+
+        .section {
+            margin: 200px 0;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .box {
+            width: 200px;
+            height: 200px;
+            background: #3498db;
+            margin: 20px 0;
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            transition: background 0.3s;
+        }
+
+        .explanation {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section" id="section1">
+            <h2>Basic Start/End Example</h2>
+            <div class="box" id="box1">Box 1</div>
+            <div class="explanation">
+                <p><strong>Start:</strong> "top center" (when top of element hits center of viewport)</p>
+                <p><strong>End:</strong> "bottom top" (when bottom of element hits top of viewport)</p>
+            </div>
+        </div>
+
+        <div class="section" id="section2">
+            <h2>Relative Positioning</h2>
+            <div class="box" id="box2">Box 2</div>
+            <div class="explanation">
+                <p><strong>Start:</strong> "center center" (element center matches viewport center)</p>
+                <p><strong>End:</strong> "+=300" (300px past start point)</p>
+            </div>
+        </div>
+
+        <div class="section" id="section3">
+            <h2>Percentage-based</h2>
+            <div class="box" id="box3">Box 3</div>
+            <div class="explanation">
+                <p><strong>Start:</strong> "top 90%" (when element top reaches 90% of viewport height)</p>
+                <p><strong>End:</strong> "top 10%" (when element top reaches 10% of viewport height)</p>
+            </div>
+        </div>
+
+        <div class="section" id="section4">
+            <h2>Multiple Triggers</h2>
+            <div class="box" id="box4">Box 4</div>
+            <div class="explanation">
+                <p><strong>Start:</strong> "top 80%" (scroll position where animation starts)</p>
+                <p><strong>End:</strong> "top 20%" (scroll position where animation completes)</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Example 1: Basic start/end
+        gsap.to("#box1", {
+            scrollTrigger: {
+                trigger: "#box1",
+                start: "top center",  // When top of box1 hits center of viewport
+                end: "bottom top",   // When bottom of box1 hits top of viewport
+                toggleActions: "play reverse reverse reset",
+                markers: true // Visual markers for debugging
+            },
+            opacity: 1,
+            duration: 1,
+            rotation: 360
+        });
+
+        // Example 2: Relative positioning
+        gsap.to("#box2", {
+            scrollTrigger: {
+                trigger: "#box2",
+                start: "center center", // Center of element meets center of viewport
+                end: "+=300", // 300px past start point
+                scrub: true,
+                markers: true
+            },
+            opacity: 1,
+            x: 400,
+            duration: 2
+        });
+
+        // Example 3: Percentage-based
+        gsap.to("#box3", {
+            scrollTrigger: {
+                trigger: "#box3",
+                start: "top 90%", // When element top reaches 90% viewport height
+                end: "top 10%",   // When element top reaches 10% viewport height
+                toggleActions: "play none none reverse",
+                markers: true
+            },
+            opacity: 1,
+            y: -100,
+            duration: 1.5
+        });
+
+        // Example 4: Multiple triggers
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#box4",
+                start: "top 80%",
+                end: "top 20%",
+                scrub: 1,
+                markers: true
+            }
+        });
+
+        tl.to("#box4", { opacity: 1, x: 200, duration: 1 })
+          .to("#box4", { y: 100, duration: 0.5 })
+          .to("#box4", { rotation: 180, duration: 0.8 });
+    </script>
+</body>
+</html>

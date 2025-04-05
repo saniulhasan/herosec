@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grid Layout</title>
+  <style>
+    /* 
+      Container:
+      - 2 columns
+      - 3 rows
+      - Gap for spacing
+    */
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 2rem;
+      min-height: 100vh;
+      background-color: #000; /* just a dark background to resemble the screenshot */
+    }
+
+    /* Top-left placeholder (e.g., "Hi, I'm ...") */
+    .hero {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      background-color: #222; /* placeholder color */
+    }
+
+    /* Top-right placeholder (e.g., Tech Stack) */
+    .tech-stack {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+      background-color: #333; /* placeholder color */
+    }
+
+    /* Bottom-left placeholder (e.g., My Passion for Coding) */
+    .passion {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      background-color: #444; /* placeholder color */
+    }
+
+    /* Bottom-right placeholder (e.g., World map / flexible location) */
+    .map {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      background-color: #555; /* placeholder color */
+    }
+
+    /* Full-width bottom placeholder (e.g., Contact section) */
+    .contact {
+      grid-column: 1 / 3;
+      grid-row: 3 / 4;
+      background-color: #666; /* placeholder color */
+    }
+
+    /* Just to visualize each section's boundary clearly */
+    .hero, .tech-stack, .passion, .map, .contact {
+      border: 1px solid #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero"></div>
+    <div class="tech-stack"></div>
+    <div class="passion"></div>
+    <div class="map"></div>
+    <div class="contact"></div>
+  </div>
+</body>
+</html>
